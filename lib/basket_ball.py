@@ -182,3 +182,69 @@ def game_dict():
             ]
         }
     }
+
+
+def num_points_per_game(player_name):
+    data = game_dict()
+    for team in ['home', 'away']:
+        for player in data[team]['players']:
+            if player['name'] == player_name:
+                return player['points_per_game']
+    
+    return None 
+
+def player_age(player_name):
+    data = game_dict()
+    
+    for team in ['home', 'away']:
+        for player in data[team]['players']:
+            if player['name'] == player_name:
+                return player['age']
+    
+    return None 
+
+def team_colors(team_name):
+    data = game_dict()
+    for team in ['home', 'away']:
+        if data[team]['team_name'] == team_name:
+            return data[team]['colors']
+    return None
+
+def team_names():
+    data = game_dict()
+    return [data['home']['team_name'], data['away']['team_name']]
+
+def player_numbers(team_name):
+    data = game_dict()
+    for team in ['home', 'away']:
+        if data[team]['team_name'] == team_name:
+            return [player['number'] for player in data[team]['players']]
+    return None
+
+def player_stats(player_name):
+    data = game_dict()
+    for team in ['home', 'away']:
+        for player in data[team]['players']:
+            if player['name'] == player_name:
+                return player
+    return None
+
+def average_rebounds_by_shoe_brand():
+    data = game_dict()
+    shoe_brand_rebounds = {}
+    shoe_brand_counts = {}
+
+    for team in ['home', 'away']:
+        for player in data[team]['players']:
+            brand = player['shoe_brand']
+            rebounds = player['rebounds_per_game']
+            if brand in shoe_brand_rebounds:
+                shoe_brand_rebounds[brand] += rebounds
+                shoe_brand_counts[brand] += 1
+            else:
+                shoe_brand_rebounds[brand] = rebounds
+                shoe_brand_counts[brand] = 1
+
+    for brand in shoe_brand_rebounds:
+        average_rebounds = shoe_brand_rebounds[brand] / shoe_brand_counts[brand]
+        print(f"{brand}:  {average_rebounds:.2f}")
